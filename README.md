@@ -1,15 +1,8 @@
-# StackPlz
-
-Android stack unwinding library based on libunwindstack.
+# libunwindstack
 
 ## Overview
 
-StackPlz is a port of Android's libunwindstack for use with Android NDK. It provides cross-platform stack unwinding capabilities with support for:
-
-- Native code stack unwinding (ARM64, x86_64, x86, RISC-V)
-- DEX file support for Java/Android stack frames
-- LZMA and ZSTD compressed symbol support
-- Thread-based unwinding
+Android Open Source Project `libunwindstack` standalone build.
 
 ## Building
 
@@ -70,28 +63,10 @@ All dependencies are pulled from Android Open Source Project (AOSP) repositories
 - `system/core` (libbase, libprocinfo)
 - `platform/bionic` - libc headers
 
-## Usage
+## TODOs
 
-```cpp
-#include "unwindstack/Unwinder.h"
-
-// Create and configure unwinder
-unwindstack::Unwinder unwinder(128, tid);
-unwindstack::Maps maps;
-maps.Parse();
-
-unwinder.SetMaps(&maps);
-unwindstack::Regs* regs = unwindstack::Regs::RemoteGet(tid);
-unwinder.SetRegs(regs);
-
-// Unwind
-unwinder.Unwind();
-
-// Process frames
-for (const auto& frame : unwinder.frames()) {
-    // Process frame
-}
-```
+- [ ] complete `lib.cpp`
+- [ ] add `rustc_demangle` support
 
 ## License
 
