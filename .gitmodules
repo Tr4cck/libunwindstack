@@ -30,3 +30,7 @@
 	path = external/art
 	url = https://android.googlesource.com/platform/art
 	branch = android16-qpr2-release
+[submodule "external/zstd"]
+	path = external/zstd
+	url = https://android.googlesource.com/platform/external/zstd
+	branch = android16-qpr2-release

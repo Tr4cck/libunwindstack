@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.22.1)
-project("unwindstack")
+project("stackplz")
 
 enable_language(C CXX ASM)
 
@@ -17,9 +17,10 @@ set(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} -Wl,-z,text,-z,defs,
 set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -fno-omit-frame-pointer")
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fno-omit-frame-pointer -Werror=non-virtual-dtor -Werror=delete-non-virtual-dtor")
 
-set(SHIM_SRC "shim_files")
+set(SHIM_SRC "shim")
 set(EXTERNAL_SRC "external")
 set(UNWINDING_SRC "external/unwinding")
+set(LOG_SRC "external/logging/liblog")
 set(DEXFILE_SRC "external/art/libdexfile")
 
 if (DEFINED ANDROID_ABI)
@@ -81,7 +82,7 @@ add_library(base STATIC
         "${EXTERNAL_SRC}/libbase/strings.cpp"
         "${EXTERNAL_SRC}/libbase/threads.cpp"
 )
-target_include_directories(base PUBLIC "${EXTERNAL_SRC}/libbase/include" "${SHIM_SRC}/liblog/include")
+target_include_directories(base PUBLIC "${EXTERNAL_SRC}/libbase/include" "${LOG_SRC}/include")
 target_compile_options(base PRIVATE -Wno-c99-designator)
 
 add_library(procinfo STATIC "${EXTERNAL_SRC}/libprocinfo/process.cpp")
@@ -134,7 +135,7 @@ add_library(dexfile_support STATIC
 )
 target_include_directories(dexfile_support
         PUBLIC "${DEXFILE_SRC}/external/include"
-        PUBLIC "${SHIM_SRC}/liblog/include"
+        PUBLIC "${LOG_SRC}/include"
 )
 
 add_library(unwindstack STATIC
@@ -164,12 +165,12 @@ add_library(unwindstack STATIC
         "${UNWINDING_SRC}/libunwindstack/RegsX86.cpp"
         "${UNWINDING_SRC}/libunwindstack/RegsX86_64.cpp"
         "${UNWINDING_SRC}/libunwindstack/RegsRiscv64.cpp"
-        "${UNWINDING_SRC}/libunwindstack/RegsMips.cpp"
-        "${UNWINDING_SRC}/libunwindstack/RegsMips64.cpp"
+        # "${UNWINDING_SRC}/libunwindstack/RegsMips.cpp"
+        # "${UNWINDING_SRC}/libunwindstack/RegsMips64.cpp"
         "${UNWINDING_SRC}/libunwindstack/Symbols.cpp"
         "${UNWINDING_SRC}/libunwindstack/ThreadEntry.cpp"
-        # "${UNWINDING_SRC}/libunwindstack/ThreadUnwinder.cpp"
-        "${SHIM_SRC}/libunwindstack/ThreadUnwinder.cpp"
+        "${UNWINDING_SRC}/libunwindstack/ThreadUnwinder.cpp"
+        # "${SHIM_SRC}/libunwindstack/ThreadUnwinder.cpp"
         "${UNWINDING_SRC}/libunwindstack/Unwinder.cpp"
 
         "${UNWINDING_SRC}/libunwindstack/DexFile.cpp"
@@ -187,7 +188,8 @@ target_include_directories(unwindstack
         PUBLIC "${EXTERNAL_SRC}/libprocinfo/include"
         PUBLIC "${EXTERNAL_SRC}/lzma/C"
         PUBLIC "${EXTERNAL_SRC}/art/libdexfile/external/include"
-        PUBLIC "${SHIM_SRC}/liblog/include"
+        PUBLIC "${LOG_SRC}/include"
+        PUBLIC "${EXTERNAL_SRC}/zstd/lib"  # for zstd support in unwindstack
 )
 target_compile_options(unwindstack PRIVATE -Wno-c99-designator)
 target_compile_definitions(unwindstack PRIVATE DEXFILE_SUPPORT=1)
