@@ -1,0 +1,32 @@
+[submodule "external/libbase"]
+	path = external/libbase
+	url = https://android.googlesource.com/platform/system/libbase
+	branch = android16-qpr2-release
+[submodule "external/logging"]
+	path = external/logging
+	url = https://android.googlesource.com/platform/system/logging
+	branch = android16-qpr2-release
+[submodule "external/libnativehelper"]
+	path = external/libnativehelper
+	url = https://android.googlesource.com/platform/libnativehelper
+	branch = android16-qpr2-release
+[submodule "external/libprocinfo"]
+	path = external/libprocinfo
+	url = https://android.googlesource.com/platform/system/libprocinfo
+	branch = android16-qpr2-release
+[submodule "external/unwinding"]
+	path = external/unwinding
+	url = https://android.googlesource.com/platform/system/unwinding
+	branch = android16-qpr2-release
+[submodule "external/lzma"]
+	path = external/lzma
+	url = https://android.googlesource.com/platform/external/lzma
+	branch = android16-qpr2-release
+[submodule "external/bionic"]
+	path = external/bionic
+	url = https://android.googlesource.com/platform/bionic
+	branch = android16-qpr2-release
+[submodule "external/art"]
+	path = external/art
+	url = https://android.googlesource.com/platform/art
+	branch = android16-qpr2-release
